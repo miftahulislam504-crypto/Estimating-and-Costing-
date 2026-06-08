@@ -3,7 +3,7 @@ import { clsx } from 'clsx'
 import {
   LayoutDashboard, Calculator, FileSpreadsheet, TrendingUp,
   Package, DollarSign, BarChart3, FileText, Building2,
-  ChevronLeft, ChevronRight, Settings, Zap
+  ChevronLeft, ChevronRight, Settings, Zap, GitBranch, Lightbulb, Link2
 } from 'lucide-react'
 import { useProjectStore } from '@/store/projectStore'
 import type { AppView } from '@/types'
@@ -26,8 +26,12 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'estimation',   label: 'Cost Estimate', labelBn: 'খরচ অনুমান',      icon: <DollarSign size={18} />,     group: 'planning' },
   { id: 'budget',       label: 'Budget',        labelBn: 'বাজেট',           icon: <BarChart3 size={18} />,      group: 'planning' },
   { id: 'procurement',  label: 'Procurement',   labelBn: 'ক্রয় পরিকল্পনা',  icon: <Package  size={18} />,       group: 'planning' },
-  { id: 'cashflow',     label: 'Cash Flow',     labelBn: 'ক্যাশ ফ্লো',      icon: <TrendingUp size={18} />,     group: 'planning', disabled: true },
-  { id: 'reports',      label: 'Reports',       labelBn: 'রিপোর্ট',         icon: <FileText size={18} />,       group: 'advanced', disabled: true },
+  { id: 'cashflow',     label: 'Cash Flow',     labelBn: 'ক্যাশ ফ্লো',      icon: <TrendingUp size={18} />,     group: 'planning' },
+  { id: 'tender',       label: 'Tender & Bid',  labelBn: 'দরপত্র',          icon: <FileText   size={18} />,     group: 'planning' },
+  { id: 'reports',      label: 'Reports',       labelBn: 'রিপোর্ট',         icon: <FileText   size={18} />,     group: 'advanced' },
+  { id: 'variation',    label: 'Variation',     labelBn: 'ভেরিয়েশন',       icon: <GitBranch  size={18} />,     group: 'advanced' },
+  { id: 'value-eng',    label: 'Value Eng.',    labelBn: 'ভ্যালু ইঞ্জি.',   icon: <Lightbulb  size={18} />,     group: 'advanced' },
+  { id: 'bridge',       label: 'PM Bridge',     labelBn: 'পিএম ব্রিজ',      icon: <Link2      size={18} />,     group: 'advanced' },
 ]
 
 const GROUPS = {
@@ -132,7 +136,7 @@ export function Sidebar() {
       {sidebarOpen && (
         <div className="mx-3 mb-3 px-3 py-2 rounded-lg bg-surface-800 border border-surface-700 flex items-center gap-2">
           <Zap size={12} className="text-amber-400" />
-          <span className="text-xs text-surface-400">Sprint 4 — Budget + Procurement</span>
+          <span className="text-xs text-surface-400">CivilOS Estimate v1.0 ✓</span>
         </div>
       )}
 

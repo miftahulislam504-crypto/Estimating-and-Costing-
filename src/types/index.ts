@@ -309,7 +309,11 @@ export type AppView =
   | 'budget'
   | 'procurement'
   | 'cashflow'
+  | 'tender'
+  | 'variation'
+  | 'value-eng'
   | 'reports'
+  | 'bridge'
 
 // ─── Cost Database (Phase 5) — user-editable rates ───────────────────────────
 
@@ -458,4 +462,263 @@ export interface ProcurementPlan {
   totalCost:      number
   generatedAt:    string
   durationMonths: number
+}
+
+// ─── Cash Flow (Phase 9) ──────────────────────────────────────────────────────
+
+export interface CashFlowMonth {
+  month:         number
+  year:          number
+  label:         string
+  cashIn:        number
+  cashOut:       number
+  netFlow:       number
+  runningBalance:number
+  // breakdown
+  contractReceipt:   number
+  advanceReceipt:    number
+  retentionRelease:  number
+  materialCost:      number
+  laborCost:         number
+  equipmentCost:     number
+  overheadCost:      number
+  subcontractCost:   number
+}
+
+export interface CashFlowPlan {
+  projectId:      string
+  months:         CashFlowMonth[]
+  totalCashIn:    number
+  totalCashOut:   number
+  netProfit:      number
+  peakNegative:   number
+  durationMonths: number
+  generatedAt:    string
+}
+
+// ─── Tender (Phase 10) ────────────────────────────────────────────────────────
+
+export type TenderType = 'engineer' | 'owner' | 'contractor'
+
+export interface TenderItem {
+  id:          string
+  itemNo:      string
+  description: string
+  unit:        string
+  quantity:    number
+  unitRate:    number
+  amount:      number
+  category:    string
+}
+
+export interface TenderPackage {
+  projectId:       string
+  tenderNo:        string
+  tenderType:      TenderType
+  projectName:     string
+  location:        string
+  owner:           string
+  consultant:      string
+  contractor?:     string
+  items:           TenderItem[]
+  directCost:      number
+  contingency:     number
+  grandTotal:      number
+  preparedBy:      string
+  preparedDate:    string
+  validityDays:    number
+  notes:           string
+}
+
+// ─── Variation / Change Order (Phase 11) ─────────────────────────────────────
+
+export type VariationStatus = 'pending' | 'approved' | 'rejected' | 'implemented'
+export type VariationType   = 'addition' | 'omission' | 'substitution'
+
+export interface VariationItem {
+  id:          string
+  voNo:        string          // Variation Order number e.g. "VO-001"
+  type:        VariationType
+  status:      VariationStatus
+  description: string
+  reason:      string
+  unit:        string
+  quantity:    number
+  unitRate:    number
+  amount:      number          // +ve = extra, -ve = credit
+  originalRef: string          // BOQ item reference
+  raisedBy:    string
+  raisedDate:  string
+  approvedBy?: string
+  approvedDate?: string
+  notes?:      string
+}
+
+export interface VariationRegister {
+  projectId:      string
+  items:          VariationItem[]
+  originalCost:   number
+  netVariation:   number        // sum of all approved amounts
+  revisedCost:    number        // originalCost + netVariation
+  updatedAt:      string
+}
+
+// ─── Value Engineering (Phase 12) ────────────────────────────────────────────
+
+export type VECategory =
+  | 'structural'
+  | 'material'
+  | 'method'
+  | 'design'
+  | 'procurement'
+
+export type VEStatus = 'proposed' | 'under_review' | 'accepted' | 'rejected'
+
+export interface ValueEngineeringItem {
+  id:              string
+  category:        VECategory
+  status:          VEStatus
+  title:           string
+  titleBn:         string
+  description:     string
+  originalMethod:  string
+  proposedMethod:  string
+  originalCost:    number
+  proposedCost:    number
+  potentialSaving: number
+  savingPercent:   number
+  riskLevel:       'low' | 'medium' | 'high'
+  implementationTime: string   // e.g. "2 weeks"
+  proposedBy:      string
+  proposedDate:    string
+  notes?:          string
+}
+
+export interface VERegister {
+  projectId:      string
+  items:          ValueEngineeringItem[]
+  totalPotentialSaving: number
+  totalAcceptedSaving:  number
+  updatedAt:      string
+}
+
+// ─── PM Bridge / DataBridge (Phase 15) ───────────────────────────────────────
+
+export interface CivilOSDataBridge {
+  // Format version
+  version:    '2.0'
+  exportedAt: string
+  exportedBy: string    // 'CivilOS Estimate'
+
+  // Project core
+  project: {
+    id:           string
+    name:         string
+    location:     string
+    region:       Region
+    buildingType: BuildingType
+    totalFloors:  number
+    totalArea:    number
+    plotArea:     number
+    owner:        string
+    consultant:   string
+  }
+
+  // Estimation summary
+  estimation: {
+    grandTotal:       number
+    directCost:       number
+    overheadCost:     number
+    profitCost:       number
+    contingencyCost:  number
+    vatAmount:        number
+    costPerSqm:       number
+    costPerSqft:      number
+    costPerFloor:     number
+    preparedAt:       string
+  } | null
+
+  // Budget allocation
+  budget: {
+    totalAllocated:  number
+    totalActual:     number
+    totalVariance:   number
+    lines: {
+      category:    string
+      description: string
+      allocated:   number
+      actual:      number
+    }[]
+  } | null
+
+  // Procurement plan
+  procurement: {
+    totalCost:      number
+    durationMonths: number
+    items: {
+      material:  string
+      unit:      string
+      totalQty:  number
+      unitRate:  number
+      totalCost: number
+      status:    string
+    }[]
+    monthlyTotals: {
+      label:     string
+      totalCost: number
+    }[]
+  } | null
+
+  // Cash flow
+  cashFlow: {
+    durationMonths: number
+    totalCashIn:    number
+    totalCashOut:   number
+    netProfit:      number
+    peakNegative:   number
+    months: {
+      label:          string
+      cashIn:         number
+      cashOut:        number
+      netFlow:        number
+      runningBalance: number
+    }[]
+  } | null
+
+  // Takeoff summary
+  takeoff: {
+    totalConcreteVol:  number
+    totalSteelWeight:  number
+    totalFormworkArea: number
+    totalBrickQty:     number
+    totalPlasterArea:  number
+    totalPaintArea:    number
+    totalDoors:        number
+    totalWindows:      number
+  } | null
+
+  // Variation summary
+  variation: {
+    originalCost:  number
+    netVariation:  number
+    revisedCost:   number
+    approvedCount: number
+    pendingCount:  number
+  } | null
+
+  // Value engineering
+  valueEngineering: {
+    totalPotentialSaving: number
+    totalAcceptedSaving:  number
+    proposalCount:        number
+    acceptedCount:        number
+  } | null
+}
+
+export interface BridgeExportLog {
+  id:         string
+  exportedAt: string
+  format:     'civilos' | 'json' | 'csv'
+  modules:    string[]
+  fileSize:   string
 }
