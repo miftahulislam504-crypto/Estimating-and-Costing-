@@ -11,7 +11,7 @@ const BOQ_CAT_LABELS: Record<string, string> = {
 }
 
 // ─── Color palette ────────────────────────────────────────────────────────────
-const COLORS = {
+const COLORS: Record<string, [number, number, number]> = {
   primary:    [6,   148, 162],   // teal brand
   dark:       [15,  23,  42],    // surface-950
   darkMid:    [30,  41,  59],    // surface-800
@@ -192,7 +192,7 @@ export async function generateBOQReport(
     alternateRowStyles: { fillColor: COLORS.dark },
     columnStyles: {
       0: { fontStyle: 'bold' },
-      1: { halign: 'right', fontStyle: 'bold', textColor: [6, 148, 162] },
+      1: { halign: 'right', fontStyle: 'bold', textColor: [6, 148, 162] as [number,number,number] },
     },
     theme: 'plain',
     didParseCell: (data) => {

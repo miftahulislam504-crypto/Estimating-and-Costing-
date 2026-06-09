@@ -38,7 +38,7 @@ export function CostDBDashboard() {
     <EmptyState icon={<Database size={28} />} title="কোনো প্রজেক্ট নেই" description="Dashboard থেকে প্রজেক্ট খুলুন।" />
   )
 
-  const snapshot = getSnapshot(project.id, project.region)
+  const snapshot = getSnapshot(project!.id, project!.region)
   const entries  = snapshot.entries
 
   const filtered = useMemo(() => {
@@ -74,11 +74,11 @@ export function CostDBDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Cost Database"
-        subtitle={`${project.name} — Bangladesh Material / Labor / Equipment Rates`}
+        subtitle={`${project!.name} — Bangladesh Material / Labor / Equipment Rates`}
         action={
           <div className="flex gap-2">
             <Button variant="outline" size="sm" icon={<RotateCcw size={14} />}
-              onClick={() => { if (confirm('সব Rate reset করবেন?')) resetAll(project.id) }}>
+              onClick={() => { if (confirm('সব Rate reset করবেন?')) resetAll(project!.id) }}>
               Reset All
             </Button>
             <Button size="sm" icon={<Plus size={14} />} onClick={() => setShowAdd(true)}>
@@ -110,7 +110,7 @@ export function CostDBDashboard() {
             <span className="font-semibold">{customized}টি</span> Rate কাস্টমাইজ করা হয়েছে
           </span>
           <Button variant="ghost" size="sm" icon={<RotateCcw size={12} />}
-            onClick={() => resetAll(project.id)}>
+            onClick={() => resetAll(project!.id)}>
             সব Reset
           </Button>
         </div>
@@ -195,13 +195,13 @@ export function CostDBDashboard() {
                             value={editVal}
                             onChange={e => setEditVal(+e.target.value)}
                             onKeyDown={e => {
-                              if (e.key === 'Enter') commitEdit(project.id, entry.id)
+                              if (e.key === 'Enter') commitEdit(project!.id, entry.id)
                               if (e.key === 'Escape') setEditId(null)
                             }}
                             autoFocus
                             className="w-24 bg-surface-900 border border-brand-500 rounded px-2 py-1 text-right font-mono text-sm text-white focus:outline-none"
                           />
-                          <button onClick={() => commitEdit(project.id, entry.id)}
+                          <button onClick={() => commitEdit(project!.id, entry.id)}
                             className="w-6 h-6 flex items-center justify-center rounded bg-brand-600 text-white hover:bg-brand-500 transition-colors">
                             <Check size={12} />
                           </button>
@@ -229,13 +229,13 @@ export function CostDBDashboard() {
                           <Pencil size={11} />
                         </button>
                         {isCustomized && (
-                          <button onClick={() => resetEntry(project.id, entry.id)}
+                          <button onClick={() => resetEntry(project!.id, entry.id)}
                             title="Base rate-এ ফিরুন"
                             className="w-6 h-6 flex items-center justify-center rounded text-surface-500 hover:text-amber-400 hover:bg-surface-700 transition-colors">
                             <RotateCcw size={11} />
                           </button>
                         )}
-                        <button onClick={() => deleteEntry(project.id, entry.id)}
+                        <button onClick={() => deleteEntry(project!.id, entry.id)}
                           className="w-6 h-6 flex items-center justify-center rounded text-surface-500 hover:text-red-400 hover:bg-surface-700 transition-colors">
                           <Trash2 size={11} />
                         </button>
@@ -264,9 +264,9 @@ export function CostDBDashboard() {
       {/* Add custom rate modal */}
       {showAdd && (
         <AddCustomRateModal
-          projectId={project.id}
+          projectId={project!.id}
           onClose={() => setShowAdd(false)}
-          onAdd={(entry) => { addCustomEntry(project.id, entry); setShowAdd(false) }}
+          onAdd={(entry) => { addCustomEntry(project!.id, entry); setShowAdd(false) }}
         />
       )}
     </div>

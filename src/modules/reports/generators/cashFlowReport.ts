@@ -2,7 +2,7 @@ import type { Project, CashFlowPlan } from '@/types'
 
 const fmt = (n: number) => Math.round(Math.abs(n)).toLocaleString('en-BD')
 
-const COLORS = {
+const COLORS: Record<string, [number, number, number]> = {
   primary: [6, 148, 162],
   dark:    [15, 23, 42],
   darkMid: [30, 41, 59],

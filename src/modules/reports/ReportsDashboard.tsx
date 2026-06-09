@@ -113,23 +113,23 @@ export function ReportsDashboard() {
     try {
       switch (reportId) {
         case 'project-summary':
-          await generateProjectSummaryPDF(project, takeoff, boq, estimation, budget, cashFlow)
+          await generateProjectSummaryPDF(project!, takeoff, boq, estimation, budget, cashFlow)
           break
         case 'boq-report':
-          if (format === 'pdf')   await generateBOQReport(project, boq!)
-          if (format === 'excel') await generateBOQExcel(project, boq!)
+          if (format === 'pdf')   await generateBOQReport(project!, boq!)
+          if (format === 'excel') await generateBOQExcel(project!, boq!)
           break
         case 'estimation-report':
-          await generateEstimationReport(project, estimation!, format)
+          await generateEstimationReport(project!, estimation!, format)
           break
         case 'cashflow-report':
-          await generateCashFlowReport(project, cashFlow!, format)
+          await generateCashFlowReport(project!, cashFlow!, format)
           break
         case 'procurement-report':
-          await generateBOQExcel(project, boq!, 'procurement', procurement)
+          await generateBOQExcel(project!, boq!, 'procurement', procurement)
           break
         case 'tender-report':
-          await generateBOQReport(project, boq!, 'tender', tenderEng)
+          await generateBOQReport(project!, boq!, 'tender', tenderEng)
           break
         default:
           alert('এই report শীঘ্রই আসছে।')

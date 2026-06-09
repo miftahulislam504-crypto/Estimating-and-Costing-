@@ -33,15 +33,15 @@ export function ProcurementDashboard() {
     <EmptyState icon={<Package size={28} />} title="কোনো প্রজেক্ট নেই" description="Dashboard থেকে প্রজেক্ট খুলুন।" />
   )
 
-  const summary = getSummary(project.id)
-  const plan    = getPlan(project.id)
+  const summary = getSummary(project!.id)
+  const plan    = getPlan(project!.id)
 
   function handleAutoGenerate() {
     if (!summary || summary.elements.length === 0) {
       alert('প্রথমে Quantity Takeoff-এ Elements যোগ করুন।')
       return
     }
-    autoGenerate(project.id, summary, months)
+    autoGenerate(project!.id, summary, months)
   }
 
   // Stats
@@ -54,7 +54,7 @@ export function ProcurementDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Procurement Plan"
-        subtitle={`${project.name} — Material Procurement Schedule`}
+        subtitle={`${project!.name} — Material Procurement Schedule`}
         action={
           <div className="flex items-center gap-2 flex-wrap">
             <Select
@@ -157,7 +157,7 @@ export function ProcurementDashboard() {
                                 value={editItem.status}
                                 onChange={e => {
                                   const s = e.target.value as ProcurementStatus
-                                  updateItem(project.id, item.id, { status: s })
+                                  updateItem(project!.id, item.id, { status: s })
                                   setEditItem(null)
                                 }}
                                 onBlur={() => setEditItem(null)}
@@ -286,7 +286,7 @@ export function ProcurementDashboard() {
           {/* Footer */}
           <div className="flex justify-end mt-4">
             <Button variant="ghost" size="sm"
-              onClick={() => { if (confirm('Plan মুছবেন?')) clearPlan(project.id) }}>
+              onClick={() => { if (confirm('Plan মুছবেন?')) clearPlan(project!.id) }}>
               Clear Plan
             </Button>
           </div>

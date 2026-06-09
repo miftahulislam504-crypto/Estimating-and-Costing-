@@ -30,9 +30,9 @@ export function BOQDashboard() {
     <EmptyState icon={<FileSpreadsheet size={28} />} title="কোনো প্রজেক্ট নেই" description="Dashboard থেকে প্রজেক্ট খুলুন।" />
   )
 
-  const boq     = getBOQ(project.id)
-  const summary = getSummary(project.id)
-  const settings = project.costSettings
+  const boq     = getBOQ(project!.id)
+  const summary = getSummary(project!.id)
+  const settings = project!.costSettings
 
   // Cost with project settings applied
   const directCost    = boq?.grandTotal ?? 0
@@ -57,7 +57,7 @@ export function BOQDashboard() {
       alert('প্রথমে Quantity Takeoff-এ Element যোগ করুন।')
       return
     }
-    autoGenerate(project.id, summary)
+    autoGenerate(project!.id, summary)
   }
 
   // Group items by category
@@ -73,7 +73,7 @@ export function BOQDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Bill of Quantities (BOQ)"
-        subtitle={`${project.name} — সম্পূর্ণ BOQ`}
+        subtitle={`${project!.name} — সম্পূর্ণ BOQ`}
         action={
           <div className="flex gap-2 flex-wrap">
             <Button variant="outline" size="sm" icon={<RefreshCw size={14} />} onClick={handleAutoGenerate}>
@@ -96,7 +96,7 @@ export function BOQDashboard() {
           <StatCard label="Direct Cost"   value={fmt(directCost)}          color="teal" />
           <StatCard label="মোট Items"     value={boq.items.length}         color="purple" />
           <StatCard label="Grand Total"   value={fmt(grandTotalWithAll)}   color="green" />
-          <StatCard label="Cost/m²"       value={fmt(directCost / (project.totalArea || 1))} unit="/m²" color="amber" />
+          <StatCard label="Cost/m²"       value={fmt(directCost / (project!.totalArea || 1))} unit="/m²" color="amber" />
         </div>
       )}
 
@@ -196,9 +196,9 @@ export function BOQDashboard() {
                         <BOQRow
                           key={item.id}
                           item={item}
-                          projectId={project.id}
+                          projectId={project!.id}
                           onEdit={() => setEditItem(item)}
-                          onDelete={() => deleteItem(project.id, item.id)}
+                          onDelete={() => deleteItem(project!.id, item.id)}
                         />
                       ))}
                     </tbody>
@@ -234,7 +234,7 @@ export function BOQDashboard() {
           {/* Clear button */}
           <div className="flex justify-end">
             <Button variant="ghost" size="sm" icon={<Trash2 size={14} />}
-              onClick={() => { if (confirm('সম্পূর্ণ BOQ মুছে ফেলবেন?')) clearBOQ(project.id) }}>
+              onClick={() => { if (confirm('সম্পূর্ণ BOQ মুছে ফেলবেন?')) clearBOQ(project!.id) }}>
               BOQ Clear করুন
             </Button>
           </div>
@@ -244,7 +244,7 @@ export function BOQDashboard() {
       {/* Modals */}
       {(showAddForm || editItem) && (
         <BOQItemForm
-          projectId={project.id}
+          projectId={project!.id}
           defaultCategory={addCategory}
           editItem={editItem ?? undefined}
           onClose={() => { setShowAddForm(false); setEditItem(null) }}

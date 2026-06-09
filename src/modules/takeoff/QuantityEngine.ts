@@ -7,6 +7,7 @@ import type {
   ColumnElement,
   SlabElement,
   FootingElement,
+  StaircaseElement,
   WallElement,
 } from '@/types'
 
@@ -51,11 +52,12 @@ export function computeQuantities(el: StructuralElement): ElementQuantity {
   }
 
   switch (el.type) {
-    case 'beam':    return computeBeam(el as BeamElement, base)
-    case 'column':  return computeColumn(el as ColumnElement, base)
-    case 'slab':    return computeSlab(el as SlabElement, base)
-    case 'footing': return computeFooting(el as FootingElement, base)
-    case 'wall':    return computeWall(el as WallElement, base)
+    case 'beam':      return computeBeam(el as BeamElement, base)
+    case 'column':    return computeColumn(el as ColumnElement, base)
+    case 'slab':      return computeSlab(el as SlabElement, base)
+    case 'footing':   return computeFooting(el as FootingElement, base)
+    case 'staircase': return computeStaircase(el as StaircaseElement, base)
+    case 'wall':      return computeWall(el as WallElement, base)
     case 'door':
     case 'window':
       return { ...base, count: el.count }
@@ -122,6 +124,20 @@ function computeFooting(el: FootingElement, base: ElementQuantity): ElementQuant
   // Formwork = 4 sides (bottom is on ground)
   const fwPerFt    = 2 * (el.length + el.width) * el.depth
   const formworkArea = fwPerFt * el.count
+
+  return { ...base, concreteVolume, steelWeight, formworkArea }
+}
+
+// ─── Staircase ─────────────────────────────────────────────────────────────────
+
+function computeStaircase(el: StaircaseElement, base: ElementQuantity): ElementQuantity {
+  const grossVol       = el.length * el.width * el.thickness
+  const concreteVolume = grossVol * el.count
+
+  const steelWeight  = concreteVolume * STEEL_RATIO.staircase
+
+  // Formwork = soffit area (underside of flight)
+  const formworkArea = el.length * el.width * el.count
 
   return { ...base, concreteVolume, steelWeight, formworkArea }
 }

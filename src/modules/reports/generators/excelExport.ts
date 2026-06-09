@@ -58,7 +58,7 @@ export async function generateBOQExcel(
 
     // ── Summary sheet ─────────────────────────────────────────────────────────
 
-    const summaryRows = [
+    const summaryRows: (string | number)[][] = [
       ['BOQ Summary'],
       [`Project: ${project.name}`],
       [],

@@ -46,13 +46,13 @@ export function ValueEngineeringDashboard() {
     <EmptyState icon={<Lightbulb size={28} />} title="কোনো প্রজেক্ট নেই" description="Dashboard থেকে প্রজেক্ট খুলুন।" />
   )
 
-  const summary    = getSummary(project.id)
-  const estimation = getEstimation(project.id)
-  const register   = getRegister(project.id)
+  const summary    = getSummary(project!.id)
+  const estimation = getEstimation(project!.id)
+  const register   = getRegister(project!.id)
 
   function handleGenerate() {
     if (!summary || summary.elements.length === 0) { alert('প্রথমে Quantity Takeoff সম্পন্ন করুন।'); return }
-    generateSuggestions(project.id, summary, estimation?.grandTotal ?? 0, 'System')
+    generateSuggestions(project!.id, summary, estimation?.grandTotal ?? 0, 'System')
   }
 
   const items    = register?.items ?? []
@@ -67,7 +67,7 @@ export function ValueEngineeringDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Value Engineering"
-        subtitle={`${project.name} — Cost Optimization Suggestions`}
+        subtitle={`${project!.name} — Cost Optimization Suggestions`}
         action={
           <div className="flex gap-2">
             <Button variant="outline" size="sm" icon={<Zap size={14} />} onClick={handleGenerate}>
@@ -152,18 +152,18 @@ export function ValueEngineeringDashboard() {
               <VECard
                 key={item.id}
                 item={item}
-                onAccept={() => updateStatus(project.id, item.id, 'accepted')}
-                onReject={() => updateStatus(project.id, item.id, 'rejected')}
-                onReview={() => updateStatus(project.id, item.id, 'under_review')}
+                onAccept={() => updateStatus(project!.id, item.id, 'accepted')}
+                onReject={() => updateStatus(project!.id, item.id, 'rejected')}
+                onReview={() => updateStatus(project!.id, item.id, 'under_review')}
                 onEdit={() => { setEditItem(item); setShowForm(true) }}
-                onDelete={() => deleteItem(project.id, item.id)}
+                onDelete={() => deleteItem(project!.id, item.id)}
               />
             ))}
           </div>
 
           <div className="flex justify-end mt-4">
             <Button variant="ghost" size="sm"
-              onClick={() => { if (confirm('সব proposals মুছবেন?')) clearRegister(project.id) }}>
+              onClick={() => { if (confirm('সব proposals মুছবেন?')) clearRegister(project!.id) }}>
               Clear All
             </Button>
           </div>
@@ -172,7 +172,7 @@ export function ValueEngineeringDashboard() {
 
       {showForm && (
         <VEForm
-          projectId={project.id}
+          projectId={project!.id}
           editItem={editItem ?? undefined}
           onClose={() => { setShowForm(false); setEditItem(null) }}
         />

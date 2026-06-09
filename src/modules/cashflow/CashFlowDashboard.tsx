@@ -35,13 +35,13 @@ export function CashFlowDashboard() {
     />
   )
 
-  const estimation = getEstimation(project.id)
-  const plan       = getPlan(project.id)
+  const estimation = getEstimation(project!.id)
+  const plan       = getPlan(project!.id)
 
   function handleGenerate() {
     if (!estimation) { alert('প্রথমে Cost Estimation তৈরি করুন।'); return }
     const cf = buildCashFlow(
-      project.id, estimation, project.costSettings,
+      project!.id, estimation, project!.costSettings,
       config.durationMonths,
       new Date().getFullYear(),
       new Date().getMonth() + 1,
@@ -60,7 +60,7 @@ export function CashFlowDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Cash Flow"
-        subtitle={`${project.name} — Monthly Cash In / Out / Running Balance`}
+        subtitle={`${project!.name} — Monthly Cash In / Out / Running Balance`}
         action={
           <div className="flex gap-2">
             <Button variant="outline" size="sm" icon={<Zap size={14} />} onClick={handleGenerate}>
@@ -192,7 +192,7 @@ export function CashFlowDashboard() {
           {/* Chart or Table */}
           {view === 'chart'
             ? <CashFlowChart plan={plan} />
-            : <CashFlowTable plan={plan} projectId={project.id} />
+            : <CashFlowTable plan={plan} projectId={project!.id} />
           }
 
           {/* Footer */}
@@ -202,7 +202,7 @@ export function CashFlowDashboard() {
               Generated: {new Date(plan.generatedAt).toLocaleDateString('bn-BD')}
             </p>
             <Button variant="ghost" size="sm"
-              onClick={() => { if (confirm('Cash Flow মুছবেন?')) clearPlan(project.id) }}>
+              onClick={() => { if (confirm('Cash Flow মুছবেন?')) clearPlan(project!.id) }}>
               Clear
             </Button>
           </div>

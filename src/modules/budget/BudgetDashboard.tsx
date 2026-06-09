@@ -29,12 +29,12 @@ export function BudgetDashboard() {
     <EmptyState icon={<BarChart3 size={28} />} title="কোনো প্রজেক্ট নেই" description="Dashboard থেকে প্রজেক্ট খুলুন।" />
   )
 
-  const estimation = getEstimation(project.id)
-  const budget     = getBudget(project.id)
+  const estimation = getEstimation(project!.id)
+  const budget     = getBudget(project!.id)
 
   function handleAutoGenerate() {
     if (!estimation) { alert('প্রথমে Cost Estimation তৈরি করুন।'); return }
-    const b = buildBudgetFromEstimation(project.id, estimation, project.costSettings.contingencyPct)
+    const b = buildBudgetFromEstimation(project!.id, estimation, project!.costSettings.contingencyPct)
     setBudget(b)
   }
 
@@ -44,7 +44,7 @@ export function BudgetDashboard() {
   }
 
   function commitActual(lineId: string) {
-    updateActual(project.id, lineId, actualVal)
+    updateActual(project!.id, lineId, actualVal)
     setEditActualId(null)
   }
 
@@ -56,7 +56,7 @@ export function BudgetDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Project Budget"
-        subtitle={`${project.name} — Budget Allocation & Tracking`}
+        subtitle={`${project!.name} — Budget Allocation & Tracking`}
         action={
           <div className="flex gap-2">
             <Button variant="outline" size="sm" icon={<Zap size={14} />} onClick={handleAutoGenerate}>
@@ -141,14 +141,14 @@ export function BudgetDashboard() {
             <div className="lg:col-span-2">
               <BudgetTable
                 budget={budget}
-                projectId={project.id}
+                projectId={project!.id}
                 editActualId={editActualId}
                 actualVal={actualVal}
                 setActualVal={setActualVal}
                 onStartEditActual={startEditActual}
                 onCommitActual={commitActual}
                 onEditLine={(line) => { setEditLine(line); setShowForm(true) }}
-                onDeleteLine={(id) => deleteLine(project.id, id)}
+                onDeleteLine={(id) => deleteLine(project!.id, id)}
               />
             </div>
             <BudgetChart budget={budget} />
@@ -160,7 +160,7 @@ export function BudgetDashboard() {
               Version {budget.version} • Updated {new Date(budget.updatedAt).toLocaleDateString('bn-BD')}
             </p>
             <Button variant="ghost" size="sm" icon={<Trash2 size={13} />}
-              onClick={() => { if (confirm('Budget মুছবেন?')) clearBudget(project.id) }}>
+              onClick={() => { if (confirm('Budget মুছবেন?')) clearBudget(project!.id) }}>
               Clear
             </Button>
           </div>
@@ -170,7 +170,7 @@ export function BudgetDashboard() {
       {/* Form modal */}
       {showForm && (
         <BudgetLineForm
-          projectId={project.id}
+          projectId={project!.id}
           editLine={editLine ?? undefined}
           onClose={() => { setShowForm(false); setEditLine(null) }}
         />

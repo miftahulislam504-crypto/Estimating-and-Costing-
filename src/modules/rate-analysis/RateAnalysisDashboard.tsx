@@ -36,7 +36,7 @@ export function RateAnalysisDashboard() {
     <EmptyState icon={<Database size={28} />} title="কোনো প্রজেক্ট নেই" description="Dashboard থেকে প্রজেক্ট খুলুন।" />
   )
 
-  const items = getItems(project.id)
+  const items = getItems(project!.id)
 
   function toggleExpand(id: string) {
     setExpanded(s => {
@@ -56,11 +56,11 @@ export function RateAnalysisDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Rate Analysis"
-        subtitle={`${project.name} — Unit Rate Breakdown`}
+        subtitle={`${project!.name} — Unit Rate Breakdown`}
         action={
           <div className="flex gap-2 flex-wrap">
             <Button variant="outline" size="sm" icon={<RefreshCw size={14} />}
-              onClick={() => loadTemplates(project.id)}>
+              onClick={() => loadTemplates(project!.id)}>
               Templates Load করুন
             </Button>
             <Button size="sm" icon={<Plus size={14} />} onClick={() => setShowForm(true)}>
@@ -86,7 +86,7 @@ export function RateAnalysisDashboard() {
           description="Bangladesh-ভিত্তিক Standard Templates লোড করুন অথবা নিজে তৈরি করুন।"
           action={
             <div className="flex gap-3">
-              <Button icon={<RefreshCw size={16} />} onClick={() => loadTemplates(project.id)}>
+              <Button icon={<RefreshCw size={16} />} onClick={() => loadTemplates(project!.id)}>
                 Standard Templates Load
               </Button>
               <Button variant="outline" icon={<Plus size={16} />} onClick={() => setShowForm(true)}>
@@ -104,7 +104,7 @@ export function RateAnalysisDashboard() {
               expanded={expanded.has(item.id)}
               onToggle={() => toggleExpand(item.id)}
               onEdit={() => { setEditItem(item); setShowForm(true) }}
-              onDelete={() => deleteItem(project.id, item.id)}
+              onDelete={() => deleteItem(project!.id, item.id)}
             />
           ))}
         </div>
@@ -113,7 +113,7 @@ export function RateAnalysisDashboard() {
       {/* Form modal */}
       {showForm && (
         <RateAnalysisForm
-          projectId={project.id}
+          projectId={project!.id}
           editItem={editItem ?? undefined}
           onClose={() => { setShowForm(false); setEditItem(null) }}
         />

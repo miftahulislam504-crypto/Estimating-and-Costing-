@@ -115,8 +115,8 @@ export function PMBridgeDashboard() {
   const readyCount = modules.filter(m => m.hasData).length
 
   function handleExport(format: 'civilos' | 'json') {
-    const bridge   = buildDataBridge(project, takeoff, estimation, budget, procurement, cashFlow, variation ?? null, ve ?? null)
-    const filename = `${project.name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}`
+    const bridge   = buildDataBridge(project!, takeoff, estimation, budget, procurement, cashFlow, variation ?? null, ve ?? null)
+    const filename = `${project!.name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}`
     let sizeKB     = ''
 
     if (format === 'civilos') sizeKB = downloadCivilOS(bridge, `${filename}.civilos`)
@@ -134,13 +134,13 @@ export function PMBridgeDashboard() {
   function handleCSVExport() {
     if (!estimation) { alert('Estimation data নেই।'); return }
     const rows: string[][] = [
-      ['CivilOS Estimate Export', project.name, new Date().toLocaleDateString('en-BD')],
+      ['CivilOS Estimate Export', project!.name, new Date().toLocaleDateString('en-BD')],
       [],
       ['Module', 'Metric', 'Value'],
-      ['Project', 'Name',        project.name],
-      ['Project', 'Location',    project.location],
-      ['Project', 'Total Area',  project.totalArea + ' m²'],
-      ['Project', 'Floors',      project.totalFloors + ''],
+      ['Project', 'Name',        project!.name],
+      ['Project', 'Location',    project!.location],
+      ['Project', 'Total Area',  project!.totalArea + ' m²'],
+      ['Project', 'Floors',      project!.totalFloors + ''],
       ...(takeoff ? [
         ['Takeoff', 'Concrete', takeoff.totalConcreteVol.toFixed(2) + ' m³'],
         ['Takeoff', 'Steel',    (takeoff.totalSteelWeight / 1000).toFixed(2) + ' MT'],
@@ -155,11 +155,11 @@ export function PMBridgeDashboard() {
         ['Cash Flow', 'Net Profit', Math.round(cashFlow.netProfit) + ''],
       ] : []),
     ]
-    downloadCSV(rows, `${project.name.replace(/\s+/g, '_')}_Summary.csv`)
+    downloadCSV(rows, `${project!.name.replace(/\s+/g, '_')}_Summary.csv`)
   }
 
   function handlePreview() {
-    const bridge = buildDataBridge(project, takeoff, estimation, budget, procurement, cashFlow, variation ?? null, ve ?? null)
+    const bridge = buildDataBridge(project!, takeoff, estimation, budget, procurement, cashFlow, variation ?? null, ve ?? null)
     setPreview(bridge)
     setShowPreview(true)
   }

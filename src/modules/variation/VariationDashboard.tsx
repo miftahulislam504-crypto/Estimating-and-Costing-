@@ -186,7 +186,7 @@ export function VariationDashboard() {
                             const next: VariationStatus[] = ['pending','approved','implemented','rejected']
                             const idx  = next.indexOf(item.status)
                             const nxt  = next[(idx + 1) % next.length]
-                            updateStatus(project.id, item.id, nxt)
+                            updateStatus(project!.id, item.id, nxt)
                           }}
                           className="flex items-center gap-1 mx-auto"
                         >
@@ -209,7 +209,7 @@ export function VariationDashboard() {
                             className="w-6 h-6 flex items-center justify-center rounded text-surface-500 hover:text-brand-400 hover:bg-surface-700 transition-colors">
                             <Pencil size={11} />
                           </button>
-                          <button onClick={() => deleteItem(project.id, item.id)}
+                          <button onClick={() => deleteItem(project!.id, item.id)}
                             className="w-6 h-6 flex items-center justify-center rounded text-surface-500 hover:text-red-400 hover:bg-surface-700 transition-colors">
                             <Trash2 size={11} />
                           </button>
@@ -242,7 +242,7 @@ export function VariationDashboard() {
       {register.items.length > 0 && (
         <div className="flex justify-end mt-3">
           <Button variant="ghost" size="sm"
-            onClick={() => { if (confirm('সব Variation মুছবেন?')) clearRegister(project.id) }}>
+            onClick={() => { if (confirm('সব Variation মুছবেন?')) clearRegister(project!.id) }}>
             Clear All
           </Button>
         </div>
@@ -250,7 +250,7 @@ export function VariationDashboard() {
 
       {showForm && (
         <VariationForm
-          projectId={project.id}
+          projectId={project!.id}
           editItem={editItem ?? undefined}
           nextVONo={`VO-${String(register.items.length + 1).padStart(3, '0')}`}
           onClose={() => { setShowForm(false); setEditItem(null) }}

@@ -36,9 +36,9 @@ export function EstimationDashboard() {
     />
   )
 
-  const estimation = getEstimation(project.id)
-  const boq        = getBOQ(project.id)
-  const settings   = project.costSettings
+  const estimation = getEstimation(project!.id)
+  const boq        = getBOQ(project!.id)
+  const settings   = project!.costSettings
 
   function handleAutoGenerate() {
     if (!boq || boq.items.length === 0) {
@@ -46,8 +46,8 @@ export function EstimationDashboard() {
       return
     }
     const est = buildEstimationFromBOQ(
-      project.id, boq, settings,
-      project.totalArea, project.totalFloors
+      project!.id, boq, settings,
+      project!.totalArea, project!.totalFloors
     )
     setEstimation(est)
   }
@@ -73,7 +73,7 @@ export function EstimationDashboard() {
     <div className="flex-1 overflow-y-auto p-6">
       <SectionHeader
         title="Cost Estimation"
-        subtitle={`${project.name} — সম্পূর্ণ Project Cost`}
+        subtitle={`${project!.name} — সম্পূর্ণ Project Cost`}
         action={
           <div className="flex gap-2 flex-wrap">
             <Button variant="outline" size="sm" icon={<Zap size={14} />} onClick={handleAutoGenerate}>
@@ -85,7 +85,7 @@ export function EstimationDashboard() {
             </Button>
             {estimation && (
               <Button variant="outline" size="sm" icon={<RefreshCw size={14} />}
-                onClick={() => recalculate(project.id, settings, project.totalArea, project.totalFloors)}>
+                onClick={() => recalculate(project!.id, settings, project!.totalArea, project!.totalFloors)}>
                 Recalculate
               </Button>
             )}
@@ -155,7 +155,7 @@ export function EstimationDashboard() {
                   { label: 'প্রতি m²',   value: fmt2(estimation.costPerSqm) },
                   { label: 'প্রতি sft',  value: fmt2(estimation.costPerSqft) },
                   { label: 'প্রতি Floor', value: fmt2(estimation.costPerFloor) },
-                  { label: 'মোট Area',   value: `${project.totalArea.toLocaleString()} m²` },
+                  { label: 'মোট Area',   value: `${project!.totalArea.toLocaleString()} m²` },
                 ].map(m => (
                   <div key={m.label} className="bg-surface-900/60 rounded-lg px-3 py-2">
                     <p className="text-xs text-surface-500">{m.label}</p>
@@ -168,7 +168,7 @@ export function EstimationDashboard() {
               <div className="mt-4 pt-4 border-t border-surface-700">
                 <div className="flex items-center gap-2 text-xs text-surface-500">
                   <Building2 size={12} />
-                  <span>{project.totalFloors} তলা • {project.buildingType} • {project.region}</span>
+                  <span>{project!.totalFloors} তলা • {project!.buildingType} • {project!.region}</span>
                 </div>
                 <p className="text-xs text-surface-600 mt-1">
                   তৈরি: {new Date(estimation.preparedAt).toLocaleDateString('bn-BD')} •
@@ -252,7 +252,7 @@ export function EstimationDashboard() {
                                   className="w-6 h-6 flex items-center justify-center rounded text-surface-500 hover:text-brand-400 hover:bg-surface-700 transition-colors">
                                   <Pencil size={11} />
                                 </button>
-                                <button onClick={() => deleteLineItem(project.id, item.id)}
+                                <button onClick={() => deleteLineItem(project!.id, item.id)}
                                   className="w-6 h-6 flex items-center justify-center rounded text-surface-500 hover:text-red-400 hover:bg-surface-700 transition-colors">
                                   <Trash2 size={11} />
                                 </button>
@@ -300,7 +300,7 @@ export function EstimationDashboard() {
 
             <div className="flex justify-end">
               <Button variant="ghost" size="sm" icon={<Trash2 size={13} />}
-                onClick={() => { if (confirm('Estimation মুছবেন?')) clearEstimation(project.id) }}>
+                onClick={() => { if (confirm('Estimation মুছবেন?')) clearEstimation(project!.id) }}>
                 Clear Estimation
               </Button>
             </div>
@@ -311,7 +311,7 @@ export function EstimationDashboard() {
       {/* Form modal */}
       {showForm && (
         <LineItemForm
-          projectId={project.id}
+          projectId={project!.id}
           editItem={editItem ?? undefined}
           onClose={() => { setShowForm(false); setEditItem(null) }}
         />

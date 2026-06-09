@@ -58,11 +58,11 @@ export function TenderDashboard() {
       return
     }
     const newPkg = buildTenderFromBOQ(
-      project.id, boq,
-      project.name, project.location,
-      project.owner, project.consultant,
+      project!.id, boq,
+      project!.name, project!.location,
+      project!.owner, project!.consultant,
       activeType,
-      project.costSettings.contingencyPct,
+      project!.costSettings.contingencyPct,
     )
     setPackage(newPkg)
   }
@@ -98,7 +98,7 @@ export function TenderDashboard() {
       {/* Tender type selector */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         {TENDER_TYPES.map(t => {
-          const existingPkg = getPackage(project.id, t.id)
+          const existingPkg = getPackage(project!.id, t.id)
           return (
             <button
               key={t.id}
@@ -126,14 +126,14 @@ export function TenderDashboard() {
       </div>
 
       {/* Compare all three */}
-      {TENDER_TYPES.every(t => getPackage(project.id, t.id)) && (
+      {TENDER_TYPES.every(t => getPackage(project!.id, t.id)) && (
         <div className="bg-surface-800 border border-surface-700 rounded-xl p-4 mb-6">
           <p className="text-xs font-medium text-surface-400 uppercase tracking-wider mb-3">
             তুলনামূলক সারসংক্ষেপ
           </p>
           <div className="grid grid-cols-3 gap-4">
             {TENDER_TYPES.map(t => {
-              const p = getPackage(project.id, t.id)!
+              const p = getPackage(project!.id, t.id)!
               return (
                 <div key={t.id} className="text-center">
                   <p className={`text-xs font-medium mb-1 ${t.color}`}>{t.label}</p>
@@ -213,7 +213,7 @@ export function TenderDashboard() {
                     key={f.key}
                     label={f.label}
                     value={f.val}
-                    onChange={e => updateMeta(project.id, activeType, { [f.key]: e.target.value })}
+                    onChange={e => updateMeta(project!.id, activeType, { [f.key]: e.target.value })}
                   />
                 ))}
               </div>
@@ -292,7 +292,7 @@ export function TenderDashboard() {
                               <td className="px-3 py-2 text-right">
                                 <RateCell
                                   value={item.unitRate}
-                                  onCommit={v => updateItem(project.id, activeType, item.id, v)}
+                                  onCommit={v => updateItem(project!.id, activeType, item.id, v)}
                                 />
                               </td>
                               <td className="px-3 py-2 text-right font-mono font-semibold text-surface-100">

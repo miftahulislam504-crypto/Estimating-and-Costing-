@@ -8,7 +8,7 @@ import {
 import type {
   StructuralElement, ElementType,
   BeamElement, ColumnElement, SlabElement, FootingElement,
-  WallElement, DoorElement, WindowElement
+  StaircaseElement, WallElement, DoorElement, WindowElement
 } from '@/types'
 
 interface Props {
@@ -19,13 +19,14 @@ interface Props {
 }
 
 const TYPE_OPTIONS: { value: ElementType; label: string }[] = [
-  { value: 'beam',    label: 'বিম (Beam)' },
-  { value: 'column',  label: 'কলাম (Column)' },
-  { value: 'slab',    label: 'স্ল্যাব (Slab)' },
-  { value: 'footing', label: 'ফুটিং (Footing)' },
-  { value: 'wall',    label: 'দেয়াল (Wall / Masonry)' },
-  { value: 'door',    label: 'দরজা (Door)' },
-  { value: 'window',  label: 'জানালা (Window)' },
+  { value: 'beam',      label: 'বিম (Beam)' },
+  { value: 'column',    label: 'কলাম (Column)' },
+  { value: 'slab',      label: 'স্ল্যাব (Slab)' },
+  { value: 'footing',   label: 'ফুটিং (Footing)' },
+  { value: 'staircase', label: 'সিঁড়ি (Staircase)' },
+  { value: 'wall',      label: 'দেয়াল (Wall / Masonry)' },
+  { value: 'door',      label: 'দরজা (Door)' },
+  { value: 'window',    label: 'জানালা (Window)' },
 ]
 
 const CONCRETE_GRADES = ['M15','M20','M25','M30','M35'].map(v => ({ value: v, label: v }))
@@ -37,13 +38,18 @@ const FLOORS          = Array.from({ length: 20 }, (_, i) => ({
 
 function makeDefault(type: ElementType): StructuralElement {
   switch (type) {
-    case 'beam':    return makeBeam()
-    case 'column':  return makeColumn()
-    case 'slab':    return makeSlab()
-    case 'footing': return makeFooting()
-    case 'wall':    return makeWall()
-    case 'door':    return { id: crypto.randomUUID(), tag: 'D1', type: 'door', width: 0.9, height: 2.1, count: 1, floor: 1, material: 'wood' } as DoorElement
-    case 'window':  return { id: crypto.randomUUID(), tag: 'W1', type: 'window', width: 1.2, height: 1.2, count: 1, floor: 1, material: 'steel' } as WindowElement
+    case 'beam':      return makeBeam()
+    case 'column':    return makeColumn()
+    case 'slab':      return makeSlab()
+    case 'footing':   return makeFooting()
+    case 'staircase': return {
+      id: crypto.randomUUID(), tag: 'ST1', type: 'staircase',
+      length: 3.0, width: 1.2, thickness: 0.15,
+      count: 1, floor: 1, concreteGrade: 'M20', steelGrade: 'Fe500',
+    } as StaircaseElement
+    case 'wall':      return makeWall()
+    case 'door':      return { id: crypto.randomUUID(), tag: 'D1', type: 'door', width: 0.9, height: 2.1, count: 1, floor: 1, material: 'wood' } as DoorElement
+    case 'window':    return { id: crypto.randomUUID(), tag: 'W1', type: 'window', width: 1.2, height: 1.2, count: 1, floor: 1, material: 'steel' } as WindowElement
     default: return makeBeam()
   }
 }
@@ -65,7 +71,7 @@ export function ElementForm({ projectId, defaultType, editElement, onClose }: Pr
 
   const preview = useMemo(() => {
     try {
-      const q = computeQuantities({ ...data, type: elType })
+      const q = computeQuantities({ ...data, type: elType } as StructuralElement)
       const parts: string[] = []
       if (q.concreteVolume > 0) parts.push(`Concrete: ${q.concreteVolume.toFixed(3)} m³`)
       if (q.steelWeight > 0)    parts.push(`Steel: ${q.steelWeight.toFixed(1)} kg`)
@@ -78,7 +84,7 @@ export function ElementForm({ projectId, defaultType, editElement, onClose }: Pr
   }, [data, elType])
 
   function handleSave() {
-    const el = { ...data, type: elType }
+    const el = { ...data, type: elType } as StructuralElement
     if (isEdit) updateElement(projectId, el)
     else        addElement(projectId, el)
     onClose()

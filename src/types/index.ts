@@ -117,6 +117,19 @@ export interface WallElement {
   brickType: '1st_class' | '2nd_class' | 'block'
 }
 
+export interface StaircaseElement {
+  id:        string
+  tag:       string
+  type:      'staircase'
+  length:    number          // m (flight length)
+  width:     number          // m
+  thickness: number          // m (slab thickness)
+  count:     number
+  floor:     number
+  concreteGrade: string
+  steelGrade:    string
+}
+
 export interface DoorElement {
   id:     string
   tag:    string
@@ -144,6 +157,7 @@ export type StructuralElement =
   | ColumnElement
   | SlabElement
   | FootingElement
+  | StaircaseElement
   | WallElement
   | DoorElement
   | WindowElement

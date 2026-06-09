@@ -3,7 +3,7 @@ import { ESTIMATION_CATEGORIES } from '@/store/estimationStore'
 
 const fmt = (n: number) => Math.round(n).toLocaleString('en-BD')
 
-const COLORS = {
+const COLORS: Record<string, [number, number, number]> = {
   primary:  [6, 148, 162],
   dark:     [15, 23, 42],
   darkMid:  [30, 41, 59],
