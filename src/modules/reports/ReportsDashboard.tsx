@@ -129,7 +129,7 @@ export function ReportsDashboard() {
           await generateBOQExcel(project!, boq!, 'procurement', procurement)
           break
         case 'tender-report':
-          await generateBOQReport(project!, boq!, 'tender', tenderEng ?? undefined)=menubar
+          await generateBOQReport(project!, boq!, 'tender', tenderEng ?? undefined)
           break
         default:
           alert('এই report শীঘ্রই আসছে।')
