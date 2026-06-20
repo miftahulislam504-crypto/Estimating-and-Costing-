@@ -8,53 +8,79 @@ export default {
   theme: {
     extend: {
       colors: {
+        // ── CivilOS Unified Design System — Light Clean ──────────────────
         brand: {
-          50:  '#edfafa',
-          100: '#d5f5f6',
-          200: '#afecef',
-          300: '#7edce2',
-          400: '#16bdca',
-          500: '#0694a2',
-          600: '#047481',
-          700: '#036672',
-          800: '#05505c',
-          900: '#014451',
+          50:  '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#1a56db',   // Primary blue
+          600: '#1e429f',   // Primary dark
+          700: '#1e3a8a',
+          800: '#1e3071',
+          900: '#172554',
         },
         surface: {
-          50:  '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#080f1a',
+          50:  '#ffffff',   // Pure white — main bg
+          100: '#f9fafb',   // Slight grey — sidebar, card bg
+          200: '#f3f4f6',   // Section bg
+          300: '#e5e7eb',   // Borders
+          400: '#d1d5db',   // Disabled borders
+          500: '#9ca3af',   // Placeholder, muted icons
+          600: '#6b7280',   // Muted text
+          700: '#4b5563',   // Secondary text
+          800: '#374151',   // Body text
+          900: '#1f2937',   // Strong text
+          950: '#111827',   // Near-black text
         },
-        amber: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-        }
+        success: {
+          50:  '#ecfdf5',
+          100: '#d1fae5',
+          500: '#059669',
+          600: '#047857',
+          700: '#065f46',
+        },
+        warning: {
+          50:  '#fffbeb',
+          100: '#fef3c7',
+          500: '#d97706',
+          600: '#b45309',
+        },
+        danger: {
+          50:  '#fef2f2',
+          100: '#fee2e2',
+          500: '#dc2626',
+          600: '#b91c1c',
+        },
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-        display: ['Syne', 'sans-serif'],
+        sans:    ['Inter', 'system-ui', 'sans-serif'],
+        mono:    ['JetBrains Mono', 'monospace'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(6, 148, 162, 0.25)',
-        'glow-lg': '0 0 40px rgba(6, 148, 162, 0.2)',
-        'card': '0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3)',
-        'card-lg': '0 4px 24px rgba(0,0,0,0.4)',
+        'xs':      '0 1px 2px rgba(0,0,0,0.05)',
+        'sm':      '0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)',
+        'card':    '0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)',
+        'card-lg': '0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)',
+        'modal':   '0 20px 60px rgba(0,0,0,0.15)',
+        'focus':   '0 0 0 3px rgba(26,86,219,0.15)',
+        // Legacy aliases kept so existing components don't break
+        'glow':    '0 0 0 3px rgba(26,86,219,0.15)',
+        'glow-lg': '0 0 0 4px rgba(26,86,219,0.20)',
+      },
+      borderRadius: {
+        'xl':  '12px',
+        '2xl': '16px',
+        '3xl': '20px',
       },
       backgroundImage: {
-        'grid-pattern': "linear-gradient(rgba(6,148,162,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,162,0.04) 1px, transparent 1px)",
+        'grid-pattern': "linear-gradient(rgba(26,86,219,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(26,86,219,0.03) 1px, transparent 1px)",
       },
       backgroundSize: {
         'grid': '32px 32px',
-      }
+      },
     },
   },
   plugins: [],

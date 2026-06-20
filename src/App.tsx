@@ -42,7 +42,8 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex bg-surface-950 overflow-hidden">
+    // Light Clean — white/grey app shell
+    <div className="h-screen flex bg-surface-100 overflow-hidden">
       <Sidebar />
       <main className="flex-1 overflow-hidden flex flex-col">{renderView()}</main>
     </div>
